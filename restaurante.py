@@ -26,25 +26,8 @@ class Cliente(Pessoa):
             print(line)
         p.close()
 
-    def fazerPedido(self, prato, quantidade, cliente):
-        p = open("pratos.txt", "r")
-        for line in p:
-            if prato in line:
-                arquivo = open('pedido.txt', 'a')
-                arquivo.write('Pedido: {}, Quantidade: {}, Cliente: {}'.format(prato, quantidade, cliente))
-                line
-                print(line)
-        p.close()
-
-    def visualizarPedidos(self):
-        p = open("pedido.txt", "r")
-        for line in p:
-            line
-            print(line)
-        p.close()
-
     def __repr__(self):
-        return 'Nome: {}, E-mail: {}, Telefone: {}, Endereço: {}'\
+        return 'Nome: {}, E-mail: {}, Telefone: {}, Endereco: {}'\
             .format(self.nome,
                     self.email,
                     self.telefone,
@@ -73,19 +56,24 @@ class Prato:
             .format(self.descricao, self.preco, self.tamanho, self.ingredientes)
 
 class Pedido:
-    prato = Prato()
+    prato = ''
     quantidade = ''
     cliente = Cliente()
 
-    def fazerPedido(self, prato, quantidade, cliente):
+    def fazerPedido(self, prato, cliente):
         p = open("pratos.txt", "r")
+        c = 0
         for line in p:
             if prato in line:
+                c += 1
+                prato = line.rsplit()
+                quantidade = input("Qual a quantidade? ")
                 arquivo = open('pedido.txt', 'a')
-                arquivo.write('Pedido: {}, Quantidade: {}, Cliente: {}''\n'.format(prato, quantidade, cliente))
-                line
-                print(line)
+                arquivo.write('Pedido: {}, Quantidade: {}, Cliente: {}''\n'
+                              .format(prato, quantidade, cliente))
         p.close()
+        if c == 0:
+            print("PRATO NÃO CADASTRADO!!")
 
     def visualizarPedidos(self):
         p = open("pedido.txt", "r")
@@ -94,5 +82,4 @@ class Pedido:
             print(line)
         p.close()
     def __repr__(self):
-        return 'Prato: {}, Quantidade: {}, Cliente: {}'\
-            .format(self.prato, self.quantidade, self.cliente)
+        return 'Prato: {}, Quantidade: {}, Cliente: {}'.format(self.prato, self.quantidade, self.cliente)
